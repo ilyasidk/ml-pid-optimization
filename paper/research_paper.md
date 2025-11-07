@@ -18,7 +18,7 @@ Proportional-Integral-Derivative (PID) controllers are fundamental to robotics, 
 
 ### 1.1 Background
 
-Proportional-Integral-Derivative (PID) controllers are the most widely used control algorithm in robotics and automation [1]. They provide robust control for a wide range of systems, from simple position control to complex multi-axis manipulators. However, tuning PID parameters (Kp, Ki, Kd) remains a challenging task that typically requires:
+Proportional-Integral-Derivative (PID) controllers are the most widely used control algorithm in robotics and automation [10]. They provide robust control for a wide range of systems, from simple position control to complex multi-axis manipulators. However, tuning PID parameters (Kp, Ki, Kd) remains a challenging task that typically requires:
 
 - **Expert knowledge** of control theory
 - **Time-consuming** manual adjustment
@@ -54,29 +54,29 @@ Section 2 reviews related work. Section 3 describes our methodology. Section 4 p
 
 ### 2.1 Classical PID Tuning Methods
 
-**Ziegler-Nichols Method** [2] is the most well-known systematic tuning approach. It requires finding the critical gain (Ku) where the system oscillates, then applying empirical formulas. While effective, it requires:
+**Ziegler-Nichols Method** [1] is the most well-known systematic tuning approach. It requires finding the critical gain (Ku) where the system oscillates, then applying empirical formulas. While effective, it requires:
 - System identification experiments
 - Time to reach steady-state oscillations
 - Manual intervention
 
-**Cohen-Coon Method** [3] is another empirical approach, but requires step response data.
+**Cohen-Coon Method** [2] is another empirical approach, but requires step response data.
 
 ### 2.2 Optimization-Based Methods
 
-**Genetic Algorithms (GA)** [4] have been applied to PID tuning by treating it as an optimization problem. However, they are:
+**Genetic Algorithms (GA)** [3] have been applied to PID tuning by treating it as an optimization problem. However, they are:
 - Computationally expensive (minutes to hours)
 - Require many iterations
 - May converge to local optima
 
-**Particle Swarm Optimization (PSO)** [5] is another metaheuristic approach with similar limitations.
+**Particle Swarm Optimization (PSO)** [4] is another metaheuristic approach with similar limitations.
 
 ### 2.3 Machine Learning in Control
 
 Recent work has explored ML for control parameter optimization:
 
-- **Reinforcement Learning** [6] for adaptive control, but requires online learning
-- **Neural Networks** [7] for parameter prediction, but limited to specific system types
-- **Support Vector Machines** [8] for classification of good/bad parameters
+- **Reinforcement Learning** [5, 6] for adaptive control, but requires online learning
+- **Neural Networks** [7, 8] for parameter prediction, but limited to specific system types
+- **Deep Reinforcement Learning** [9] for PID optimization, but computationally intensive
 
 Our approach differs by:
 - Using **offline learning** from simulation data
@@ -493,21 +493,25 @@ The approach demonstrates that ML can effectively replace manual PID tuning for 
 
 ## 7. References
 
-[1] Åström, K. J., & Hägglund, T. (2006). *Advanced PID control*. ISA-The Instrumentation, Systems and Automation Society.
+[1] Ziegler, J. G., & Nichols, N. B. (1942). Optimum settings for automatic controllers. *Transactions of the ASME*, 64(11), 759-768.
 
-[2] Ziegler, J. G., & Nichols, N. B. (1942). Optimum settings for automatic controllers. *Transactions of the ASME*, 64(11), 759-768.
+[2] Cohen, G. H., & Coon, G. A. (1953). Theoretical consideration of retarded control. *Transactions of the ASME*, 75(5), 827-834.
 
-[3] Cohen, G. H., & Coon, G. A. (1953). Theoretical consideration of retarded control. *Transactions of the ASME*, 75(5), 827-834.
+[3] Krohling, R. A., & Rey, J. P. (2001). Design of optimal disturbance rejection PID controllers using genetic algorithms. *IEEE Transactions on Evolutionary Computation*, 5(1), 78-82.
 
-[4] Krohling, R. A., & Rey, J. P. (2001). Design of optimal disturbance rejection PID controllers using genetic algorithms. *IEEE Transactions on Evolutionary Computation*, 5(1), 78-82.
+[4] Gaing, Z. L. (2004). A particle swarm optimization approach for optimum design of PID controller in AVR system. *IEEE Transactions on Energy Conversion*, 19(2), 384-391.
 
-[5] Gaing, Z. L. (2004). A particle swarm optimization approach for optimum design of PID controller in AVR system. *IEEE Transactions on Energy Conversion*, 19(2), 384-391.
+[5] Sutton, R. S., & Barto, A. G. (2018). *Reinforcement learning: An introduction* (2nd ed.). MIT press.
 
-[6] Sutton, R. S., & Barto, A. G. (2018). *Reinforcement learning: An introduction*. MIT press.
+[6] Shabka, Z., Enrico, M., Parsons, N., & Zervas, G. (2022). One-shot, offline and production-scalable PID optimisation with deep reinforcement learning. *arXiv preprint arXiv:2210.13906*.
 
 [7] Narendra, K. S., & Parthasarathy, K. (1990). Identification and control of dynamical systems using neural networks. *IEEE Transactions on Neural Networks*, 1(1), 4-27.
 
-[8] Vapnik, V. (2013). *The nature of statistical learning theory*. Springer science & business media.
+[8] Günther, J., Reichensdörfer, E., Pilarski, P. M., & Diepold, K. (2019). Interpretable PID parameter tuning for control engineering using general dynamic neural networks: An extensive comparison. *arXiv preprint arXiv:1905.13268*.
+
+[9] Jesawada, H., Yerudkar, A., Del Vecchio, C., & Singh, N. (2022). A model-based reinforcement learning approach for PID design. *arXiv preprint arXiv:2206.03567*.
+
+[10] Åström, K. J., & Hägglund, T. (2006). *Advanced PID control*. ISA-The Instrumentation, Systems and Automation Society.
 
 ---
 
@@ -524,7 +528,7 @@ The approach demonstrates that ML can effectively replace manual PID tuning for 
 
 ### A.2 Code Availability
 
-The complete implementation is available at: [GitHub repository URL]
+The complete implementation is available at: https://github.com/ilyasidk/ml-pid-optimization
 
 ### A.3 Reproducibility
 
