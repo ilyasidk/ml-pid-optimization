@@ -88,9 +88,9 @@ This paper presents:
 
 Recent work has explored ML for control parameter optimization:
 \begin{itemize}
-    \item \textbf{Reinforcement Learning}~\cite{sutton2018} for adaptive control, but requires online learning
-    \item \textbf{Neural Networks}~\cite{narendra1990} for parameter prediction, but limited to specific system types
-    \item \textbf{Support Vector Machines}~\cite{vapnik2013} for classification of good/bad parameters
+    \item \textbf{Reinforcement Learning}~\cite{sutton2018,shabka2022} for adaptive control, but requires online learning
+    \item \textbf{Neural Networks}~\cite{narendra1990,gunther2019} for parameter prediction, but limited to specific system types
+    \item \textbf{Deep Reinforcement Learning}~\cite{jesawada2022} for PID optimization, but computationally intensive
 \end{itemize}
 
 Our approach differs by:
@@ -593,13 +593,10 @@ The approach demonstrates that ML can effectively replace manual PID tuning for 
 
 \section*{Acknowledgments}
 
-[Add acknowledgments if applicable]
+This research was conducted at Nazarbayev Intellectual School Semey.
 
 \bibliographystyle{ieeetr}
 \begin{thebibliography}{99}
-
-\bibitem{astrom2006}
-K. J. Åström and T. Hägglund, \textit{Advanced PID control}. ISA-The Instrumentation, Systems and Automation Society, 2006.
 
 \bibitem{ziegler1942}
 J. G. Ziegler and N. B. Nichols, ``Optimum settings for automatic controllers,'' \textit{Transactions of the ASME}, vol. 64, no. 11, pp. 759--768, 1942.
@@ -614,13 +611,22 @@ R. A. Krohling and J. P. Rey, ``Design of optimal disturbance rejection PID cont
 Z. L. Gaing, ``A particle swarm optimization approach for optimum design of PID controller in AVR system,'' \textit{IEEE Transactions on Energy Conversion}, vol. 19, no. 2, pp. 384--391, 2004.
 
 \bibitem{sutton2018}
-R. S. Sutton and A. G. Barto, \textit{Reinforcement learning: An introduction}. MIT press, 2018.
+R. S. Sutton and A. G. Barto, \textit{Reinforcement learning: An introduction}, 2nd ed. MIT press, 2018.
+
+\bibitem{shabka2022}
+Z. Shabka, M. Enrico, N. Parsons, and G. Zervas, ``One-shot, offline and production-scalable PID optimisation with deep reinforcement learning,'' \textit{arXiv preprint arXiv:2210.13906}, 2022.
 
 \bibitem{narendra1990}
 K. S. Narendra and K. Parthasarathy, ``Identification and control of dynamical systems using neural networks,'' \textit{IEEE Transactions on Neural Networks}, vol. 1, no. 1, pp. 4--27, 1990.
 
-\bibitem{vapnik2013}
-V. Vapnik, \textit{The nature of statistical learning theory}. Springer science \& business media, 2013.
+\bibitem{gunther2019}
+J. Günther, E. Reichensdörfer, P. M. Pilarski, and K. Diepold, ``Interpretable PID parameter tuning for control engineering using general dynamic neural networks: An extensive comparison,'' \textit{arXiv preprint arXiv:1905.13268}, 2019.
+
+\bibitem{jesawada2022}
+H. Jesawada, A. Yerudkar, C. Del Vecchio, and N. Singh, ``A model-based reinforcement learning approach for PID design,'' \textit{arXiv preprint arXiv:2206.03567}, 2022.
+
+\bibitem{astrom2006}
+K. J. Åström and T. Hägglund, \textit{Advanced PID control}. ISA-The Instrumentation, Systems and Automation Society, 2006.
 
 \end{thebibliography}
 
@@ -639,7 +645,7 @@ V. Vapnik, \textit{The nature of statistical learning theory}. Springer science 
 
 \subsection*{A.2 Code Availability}
 
-The complete implementation is available at: [GitHub repository URL]
+The complete implementation is available at: \url{https://github.com/ilyasidk/ml-pid-optimization}
 
 \subsection*{A.3 Reproducibility}
 
