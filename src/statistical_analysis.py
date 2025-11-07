@@ -1,6 +1,11 @@
 """
-Статистический анализ результатов экспериментов (V2 - исправленная версия)
-Анализ улучшенных экспериментов с адаптивным baseline и Ziegler-Nichols
+Statistical analysis of experimental results.
+
+Performs statistical tests comparing ML method with baseline methods:
+- Paired t-test
+- Wilcoxon signed-rank test
+- Cohen's d (effect size)
+- Descriptive statistics
 """
 import numpy as np
 from scipy import stats
@@ -18,11 +23,11 @@ improvements_baseline = np.array(exp4['improvements_baseline'])
 improvements_zn = np.array(exp4['improvements_zn']) if len(exp4['improvements_zn']) > 0 else None
 
 print("="*60)
-print(" STATISTICAL ANALYSIS V2 - IMPROVED EXPERIMENTS")
+print(" STATISTICAL ANALYSIS")
 print("="*60)
 print()
 
-print(f"📊 Analyzing {len(ml_scores)} test cases")
+print(f"Analyzing {len(ml_scores)} test cases")
 print()
 
 # =============================================================================
@@ -39,15 +44,16 @@ print(f"\nPaired t-test:")
 print(f"t-statistic: {t_stat_baseline:.4f}")
 print(f"p-value: {p_value_baseline:.10f}")
 if p_value_baseline < 0.05:
-    print("✅ Statistically significant (p < 0.05)")
+    print("Statistically significant (p < 0.05)")
 if p_value_baseline < 0.01:
-    print("✅ Highly significant (p < 0.01)")
+    print("Highly significant (p < 0.01)")
 if p_value_baseline < 0.001:
-    print("✅ Very highly significant (p < 0.001)")
+    print("Very highly significant (p < 0.001)")
 
-# Cohen's d (размер эффекта)
+# Cohen's d (effect size)
+# Formula: d = mean(diff) / std(diff), where diff = baseline - ml
 diff = baseline_scores - ml_scores
-cohens_d_baseline = np.mean(diff) / np.std(diff)
+cohens_d_baseline = np.mean(diff) / np.std(diff, ddof=1)  # ddof=1 for unbiased estimate
 
 print(f"\n{'='*60}")
 print("Effect size (Cohen's d)")
@@ -113,23 +119,23 @@ all_negative = np.all(diff_wilcoxon < 0)
 print(f"Statistic: {wilcoxon_stat_baseline:.4f}")
 print(f"p-value: {wilcoxon_p_baseline:.10f}")
 
-# Объяснение статистики = 0
+# Explanation of statistic = 0
 if wilcoxon_stat_baseline == 0.0:
     if all_positive:
-        print("ℹ️  Statistic = 0 означает, что ML лучше baseline во ВСЕХ случаях")
-        print("   (все разности положительные → максимальная значимость)")
+        print("Note: Statistic = 0 indicates ML outperformed baseline in ALL cases")
+        print("      (all differences positive -> maximum significance)")
     elif all_negative:
-        print("ℹ️  Statistic = 0 означает, что baseline лучше ML во ВСЕХ случаях")
-        print("   (все разности отрицательные → максимальная значимость)")
+        print("Note: Statistic = 0 indicates baseline outperformed ML in ALL cases")
+        print("      (all differences negative -> maximum significance)")
 
 if wilcoxon_p_baseline < 0.05:
-    print("✅ Statistically significant (p < 0.05)")
+    print("Statistically significant (p < 0.05)")
 if wilcoxon_p_baseline < 0.01:
-    print("✅ Highly significant (p < 0.01)")
+    print("Highly significant (p < 0.01)")
 if wilcoxon_p_baseline < 0.001:
-    print("✅ Very highly significant (p < 0.001)")
+    print("Very highly significant (p < 0.001)")
 if wilcoxon_p_baseline < 1e-10:
-    print("✅ Extremely significant (p < 1e-10) - максимальная значимость!")
+    print("Extremely significant (p < 1e-10) - maximum significance")
 
 # =============================================================================
 # 2. ML vs Ziegler-Nichols (if available)
@@ -150,7 +156,7 @@ if improvements_zn is not None and len(improvements_zn) > 0:
 
     # Cohen's d
     diff_zn = zn_scores - ml_scores_zn
-    cohens_d_zn = np.mean(diff_zn) / np.std(diff_zn)
+    cohens_d_zn = np.mean(diff_zn) / np.std(diff_zn, ddof=1)  # ddof=1 для несмещенной оценки
     print(f"\nCohen's d: {cohens_d_zn:.4f}")
 
     print(f"\nImprovement (%) over Ziegler-Nichols:")
@@ -229,8 +235,8 @@ if improvements_zn is not None and len(improvements_zn) > 0:
 with open(STATISTICAL_RESULTS, 'w') as f:
     json.dump(statistical_results, f, indent=2)
 
-print(f"\n✅ Statistical results saved to '{STATISTICAL_RESULTS.name}'")
+print(f"\nStatistical results saved to '{STATISTICAL_RESULTS.name}'")
 print()
 print("="*60)
-print(" ANALYSIS COMPLETE - MUCH MORE REALISTIC RESULTS!")
+print(" ANALYSIS COMPLETE")
 print("="*60)

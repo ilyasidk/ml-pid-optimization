@@ -10,9 +10,9 @@ try:
     import numpy as np
     from config import MODEL_PKL, SCALER_X_PKL, SCALER_Y_PKL
 except ImportError as e:
-    print("❌ Ошибка: не установлены зависимости!")
+    print("Error: Dependencies not installed!")
     print(f"   {e}")
-    print("\n📦 Установи зависимости:")
+    print("\nInstall dependencies:")
     print("   python3 -m pip install -r requirements.txt")
     print("   или")
     print("   pip3 install -r requirements.txt")
@@ -27,9 +27,9 @@ def check_model_files():
     
     for file in required_files:
         if os.path.exists(file):
-            print(f"✅ {file.name} - найден")
+            print(f"Found: {file.name}")
         else:
-            print(f"❌ {file.name} - НЕ НАЙДЕН")
+            print(f"Missing: {file.name}")
             missing.append(file)
     
     return len(missing) == 0
@@ -38,35 +38,35 @@ def check_model_files():
 def test_model_loading():
     """Проверяет что модель загружается"""
     try:
-        print("\n📦 Загрузка модели...")
+        print("\nLoading model...")
         model = joblib.load(MODEL_PKL)
         scaler_X = joblib.load(SCALER_X_PKL)
         scaler_y = joblib.load(SCALER_Y_PKL)
-        print("✅ Модель успешно загружена!")
+        print("Model loaded successfully!")
         return model, scaler_X, scaler_y
     except Exception as e:
-        print(f"❌ Ошибка загрузки: {e}")
+        print(f"Error loading model: {e}")
         return None, None, None
 
 
 def test_prediction(model, scaler_X, scaler_y):
     """Тестирует предсказание на примере"""
     try:
-        print("\n🧪 Тестирование предсказания...")
+        print("\nTesting prediction...")
         
-        # Тестовый пример
+        # Test example
         test_params = np.array([[2.0, 0.7, 0.15]])  # mass, friction, inertia
         
-        # Нормализация
+        # Normalization
         test_scaled = scaler_X.transform(test_params)
         
-        # Предсказание
+        # Prediction
         pred_scaled = model.predict(test_scaled)
         
-        # Денормализация
+        # Denormalization
         pred = scaler_y.inverse_transform(pred_scaled)
         
-        print(f"✅ Предсказание работает!")
+        print(f"Prediction successful!")
         print(f"\n   Входные параметры робота:")
         print(f"   - Масса: {test_params[0][0]:.2f}")
         print(f"   - Трение: {test_params[0][1]:.2f}")
@@ -78,31 +78,31 @@ def test_prediction(model, scaler_X, scaler_y):
         
         return True
     except Exception as e:
-        print(f"❌ Ошибка предсказания: {e}")
+        print(f"Prediction error: {e}")
         return False
 
 
 def main():
     """Основная функция проверки"""
     print("="*50)
-    print("🔍 ПРОВЕРКА МОДЕЛИ")
+    print("MODEL CHECK")
     print("="*50)
     
-    # Проверка файлов
+    # Check files
     if not check_model_files():
-        print("\n❌ Не все файлы найдены. Сначала обучите модель:")
+        print("\nNot all files found. Train the model first:")
         print("   python3 src/train_model.py")
         return
     
-    # Загрузка модели
+    # Load model
     model, scaler_X, scaler_y = test_model_loading()
     if model is None:
         return
     
-    # Тест предсказания
+    # Test prediction
     if test_prediction(model, scaler_X, scaler_y):
         print("\n" + "="*50)
-        print("✅ МОДЕЛЬ РАБОТАЕТ! Можно использовать.")
+        print("MODEL WORKING - Ready to use")
         print("="*50)
         print("\n📝 Как использовать:")
         print("   1. Быстрое предсказание:")

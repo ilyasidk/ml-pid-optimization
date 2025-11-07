@@ -1,15 +1,18 @@
 """
-Улучшенные эксперименты для научной статьи (V2 - исправленная версия)
+Experimental evaluation for ML-based PID parameter optimization.
 
-ИСПРАВЛЕНИЯ:
-1. Адаптивный baseline вместо фиксированного PID
-2. Реальное добавление шума в эксперименте 3
-3. Использование inertia в физике (effective_mass)
-4. Сравнение с Ziegler-Nichols методом
+This module implements four experiments:
+1. Speed comparison between ML and baseline methods
+2. Generalization to different robot types
+3. Noise robustness analysis
+4. Accuracy evaluation across parameter space
 """
 import numpy as np
 import joblib
 import time
+
+# Set random seed for reproducibility
+np.random.seed(42)
 from robot_simulator import (
     RobotSimulator, test_pid,
     get_adaptive_baseline_pid,
@@ -128,8 +131,8 @@ def experiment_generalization(model, scaler_X, scaler_y):
 
 
 def experiment_noise_robustness(model, scaler_X, scaler_y):
-    """Эксперимент 3: Устойчивость к шуму датчиков (ИСПРАВЛЕННЫЙ)"""
-    print("EXPERIMENT 3: Performance with Sensor Noise (FIXED)")
+    """Experiment 3: Noise robustness analysis"""
+    print("EXPERIMENT 3: Performance with Sensor Noise")
     print("="*50)
 
     noise_levels = [0.0, 0.05, 0.1, 0.2]
@@ -167,14 +170,14 @@ def experiment_noise_robustness(model, scaler_X, scaler_y):
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.savefig(NOISE_ROBUSTNESS, dpi=150)
-    print(f"\n📊 Saved to '{NOISE_ROBUSTNESS.name}'\n")
+    print(f"\nSaved to '{NOISE_ROBUSTNESS.name}'\n")
 
     return noise_levels, ml_scores, baseline_scores
 
 
 def experiment_accuracy_across_space(model, scaler_X, scaler_y):
-    """Эксперимент 4: Точность по всему пространству параметров (ИСПРАВЛЕННЫЙ)"""
-    print("EXPERIMENT 4: Accuracy Across Parameter Space (FIXED)")
+    """Experiment 4: Accuracy evaluation across parameter space"""
+    print("EXPERIMENT 4: Accuracy Across Parameter Space")
     print("="*50)
 
     n_tests = 100
@@ -252,7 +255,7 @@ def experiment_accuracy_across_space(model, scaler_X, scaler_y):
 
     plt.tight_layout()
     plt.savefig(IMPROVEMENT_DIST, dpi=150)
-    print(f"📊 Saved to '{IMPROVEMENT_DIST.name}'")
+    print(f"Saved to '{IMPROVEMENT_DIST.name}'")
 
     return {
         'improvements_baseline': improvements_vs_baseline,
@@ -264,9 +267,9 @@ def experiment_accuracy_across_space(model, scaler_X, scaler_y):
 
 
 def main():
-    """Запуск всех улучшенных экспериментов"""
+    """Run all experimental evaluations"""
     print("="*60)
-    print(" IMPROVED EXPERIMENTS V2 - FIXED VERSION")
+    print(" EXPERIMENTAL EVALUATION")
     print("="*60)
     print()
 
@@ -279,10 +282,10 @@ def main():
     # Эксперимент 2: Обобщение
     exp2_results = experiment_generalization(model, scaler_X, scaler_y)
 
-    # Эксперимент 3: Устойчивость к шуму (ИСПРАВЛЕНО)
+    # Experiment 3: Noise robustness
     exp3_results = experiment_noise_robustness(model, scaler_X, scaler_y)
 
-    # Эксперимент 4: Точность (ИСПРАВЛЕНО)
+    # Experiment 4: Accuracy across parameter space
     exp4_results = experiment_accuracy_across_space(model, scaler_X, scaler_y)
 
     # Сохранение всех результатов
@@ -294,9 +297,9 @@ def main():
     }
 
     np.save(EXPERIMENT_RESULTS, all_results, allow_pickle=True)
-    print(f"\n✅ All results saved to '{EXPERIMENT_RESULTS.name}' for statistical analysis")
+    print(f"\nAll results saved to '{EXPERIMENT_RESULTS.name}' for statistical analysis")
     print("\n" + "="*60)
-    print(" EXPERIMENTS COMPLETE - ALL CRITICAL ISSUES FIXED")
+    print(" EXPERIMENTS COMPLETE")
     print("="*60)
 
 

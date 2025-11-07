@@ -109,7 +109,7 @@ def main():
     
     plt.tight_layout()
     plt.savefig(RESULTS_COMPARISON, dpi=150)
-    print("\n📊 Saved comparison to 'results_comparison.png'")
+    print("\nSaved comparison to 'results_comparison.png'")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,9 @@
 import numpy as np
 import pandas as pd
 from robot_simulator import RobotSimulator, test_pid
+
+# Установка seed для воспроизводимости результатов
+np.random.seed(42)
 from tqdm import tqdm
 from config import DATASET_CSV
 
