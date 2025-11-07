@@ -386,12 +386,12 @@ The high R² scores indicate the model successfully learned the mapping from rob
 
 **Key Findings:**
 
-1. ✅ **ML outperforms adaptive baseline** by 72.6% on average (100% success rate)
-2. ✅ **ML outperforms Ziegler-Nichols** by 38.7% on average (90% success rate)
-3. ✅ **Extremely fast**: Predictions in < 1 ms
-4. ✅ **Robust to noise**: Maintains advantage even at 20% sensor noise
-5. ✅ **Generalizes well**: Consistent improvement across diverse robot types
-6. ✅ **Statistically validated**: Highly significant results with large effect sizes
+1. **ML outperforms adaptive baseline** by 72.6% on average (100% success rate)
+2. **ML outperforms Ziegler-Nichols** by 38.7% on average (90% success rate)
+3. **Extremely fast**: Predictions in < 1 ms
+4. **Robust to noise**: Maintains advantage even at 20% sensor noise
+5. **Generalizes well**: Consistent improvement across diverse robot types
+6. **Statistically validated**: Highly significant results with large effect sizes
 
 ---
 
