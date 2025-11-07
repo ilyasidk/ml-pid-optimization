@@ -28,8 +28,7 @@ data/*.npy
 # Models (большие)
 models/*.pkl
 
-# Results
-results/*.png
+# Results (keep PNG files for documentation, ignore large data files)
 results/*.npy
 results/*.json
 

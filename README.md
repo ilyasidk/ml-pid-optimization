@@ -183,6 +183,26 @@ Improvement:   Mean=72.6%,  Median=75.6%
 Success rate:  100% (all tests better than baseline)
 ```
 
+### Visualization
+
+#### Improvement Distribution
+
+![Improvement Distribution](results/improvement_distribution.png)
+
+Distribution of performance improvements across 100 test cases comparing ML method with adaptive baseline and Ziegler-Nichols method.
+
+#### Noise Robustness
+
+![Noise Robustness](results/noise_robustness.png)
+
+Performance degradation analysis under different sensor noise levels (0%, 5%, 10%, 20%).
+
+#### Method Comparison
+
+![Results Comparison](results/results_comparison.png)
+
+Comparison of ML-predicted PID parameters with baseline methods across different robot configurations.
+
 ## Performance Metrics
 
 | Metric | Value |
