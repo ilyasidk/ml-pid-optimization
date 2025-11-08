@@ -125,14 +125,10 @@ Tests the model on predefined robot configurations.
 │   ├── results_comparison.png
 │   ├── experiment_results.npy
 │   └── statistical_results.json
-├── docs/                         # Documentation
-│   ├── ARCHITECTURE.md           # System architecture
-│   ├── HOW_TO_USE.md             # Usage instructions
-│   └── QUICK_START.md            # Quick start guide
-└── paper/                        # Research paper
-    ├── research_paper.md         # Full paper (Markdown)
-    ├── research_paper.tex        # Full paper (LaTeX)
-    └── abstract_short.md         # Short abstracts
+└── docs/                         # Documentation
+    ├── ARCHITECTURE.md           # System architecture
+    ├── HOW_TO_USE.md             # Usage instructions
+    └── QUICK_START.md            # Quick start guide
 ```
 
 ## Methodology
@@ -228,7 +224,6 @@ Comparison of ML-predicted PID parameters with baseline methods across different
 - **[docs/HOW_TO_USE.md](docs/HOW_TO_USE.md)** - Detailed usage instructions
 - **[docs/QUICK_START.md](docs/QUICK_START.md)** - Quick start guide
 - **[REPRODUCIBILITY.md](REPRODUCIBILITY.md)** - How to reproduce all results
-- **[paper/research_paper.md](paper/research_paper.md)** - Full research paper
 
 ## Citation
 
