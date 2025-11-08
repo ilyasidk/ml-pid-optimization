@@ -1,4 +1,4 @@
-# Краткий Abstract для конференции
+# Short Abstract for Conference
 
 ## Abstract (150 слов)
 

@@ -227,6 +227,7 @@ Comparison of ML-predicted PID parameters with baseline methods across different
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - System architecture and design
 - **[docs/HOW_TO_USE.md](docs/HOW_TO_USE.md)** - Detailed usage instructions
 - **[docs/QUICK_START.md](docs/QUICK_START.md)** - Quick start guide
+- **[REPRODUCIBILITY.md](REPRODUCIBILITY.md)** - How to reproduce all results
 - **[paper/research_paper.md](paper/research_paper.md)** - Full research paper
 
 ## Citation

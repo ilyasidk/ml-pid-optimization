@@ -57,17 +57,17 @@ def main():
         friction = float(sys.argv[2])
         inertia = float(sys.argv[3])
     else:
-        # Интерактивный режим
-        print("Введите параметры робота:")
-        mass = float(input("Масса (0.5-5.0): "))
-        friction = float(input("Трение (0.1-2.0): "))
-        inertia = float(input("Инерция (0.05-0.5): "))
+        # Interactive mode
+        print("Enter robot parameters:")
+        mass = float(input("Mass (0.5-5.0): "))
+        friction = float(input("Friction (0.1-2.0): "))
+        inertia = float(input("Inertia (0.05-0.5): "))
     
     # Предсказание
     result = predict_pid(mass, friction, inertia)
     
-    # Вывод результатов
-    print("\n--- Оптимальные PID параметры ---")
+    # Output results
+    print("\n--- Optimal PID Parameters ---")
     print(f"Kp: {result['Kp']:.4f}")
     print(f"Ki: {result['Ki']:.4f}")
     print(f"Kd: {result['Kd']:.4f}")

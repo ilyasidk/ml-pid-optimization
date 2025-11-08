@@ -1,16 +1,16 @@
 #!/bin/bash
-# Скрипт для установки зависимостей
+# Script for installing dependencies
 
-echo "🔧 Установка зависимостей для проекта..."
+echo "Installing project dependencies..."
 
-# Определение корневой директории проекта
+# Determine project root directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-# Переход в корневую директорию проекта
+# Change to project root directory
 cd "$PROJECT_ROOT" || exit 1
 
-# Проверка наличия Python
+# Check for Python
 if command -v python3 &> /dev/null; then
     PYTHON_CMD="python3"
     PIP_CMD="pip3"
@@ -18,33 +18,32 @@ elif command -v python &> /dev/null; then
     PYTHON_CMD="python"
     PIP_CMD="pip"
 else
-    echo "❌ Python не найден! Установите Python 3.7+"
+    echo "ERROR: Python not found! Install Python 3.7+"
     exit 1
 fi
 
-echo "Используется: $PYTHON_CMD"
-echo "Версия: $($PYTHON_CMD --version)"
+echo "Using: $PYTHON_CMD"
+echo "Version: $($PYTHON_CMD --version)"
 echo ""
 
-# Проверка наличия requirements.txt
+# Check for requirements.txt
 if [ ! -f "requirements.txt" ]; then
-    echo "❌ Файл requirements.txt не найден!"
+    echo "ERROR: requirements.txt not found!"
     exit 1
 fi
 
-# Установка зависимостей
-echo "📦 Установка зависимостей из requirements.txt..."
+# Install dependencies
+echo "Installing dependencies from requirements.txt..."
 $PIP_CMD install -r requirements.txt
 
 if [ $? -eq 0 ]; then
     echo ""
-    echo "✅ Зависимости установлены!"
+    echo "OK: Dependencies installed!"
     echo ""
-    echo "Теперь можно запускать:"
+    echo "You can now run:"
     echo "  $PYTHON_CMD src/check_model.py"
 else
     echo ""
-    echo "❌ Ошибка при установке зависимостей!"
+    echo "ERROR: Failed to install dependencies!"
     exit 1
 fi
-

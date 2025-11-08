@@ -69,25 +69,6 @@ def strategy_best_per_robot(df):
     return best_pids
 
 
-def strategy_top_percentile(df, percentile=0.3):
-    """
-    Стратегия 2: Выбирает лучшие результаты по score (процентиль)
-    
-    Args:
-        df: датафрейм с данными
-        percentile: процентиль для отбора (0.3 = лучшие 30%)
-    """
-    print(f"\nStrategy: Top {int((1-percentile)*100)}% by score")
-    
-    threshold = df['score'].quantile(percentile)
-    print(f"Score threshold ({int(percentile*100)}th percentile): {threshold:.2f}")
-    
-    df_filtered = df[df['score'] <= threshold].copy()
-    print(f"Good samples: {len(df_filtered)}")
-    
-    return df_filtered
-
-
 def prepare_features_labels(df):
     """Извлекает признаки (X) и метки (y) из датафрейма"""
     X = df[['mass', 'friction', 'inertia']].values

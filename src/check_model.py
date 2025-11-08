@@ -1,5 +1,5 @@
 """
-Быстрая проверка что модель работает
+Quick check that the model works
 """
 import os
 import sys
@@ -14,14 +14,14 @@ except ImportError as e:
     print(f"   {e}")
     print("\nInstall dependencies:")
     print("   python3 -m pip install -r requirements.txt")
-    print("   или")
+    print("   or")
     print("   pip3 install -r requirements.txt")
-    print("\n   Или запусти: bash scripts/install_dependencies.sh")
+    print("\n   Or run: bash scripts/install_dependencies.sh")
     sys.exit(1)
 
 
 def check_model_files():
-    """Проверяет наличие всех необходимых файлов"""
+    """Checks for all required files"""
     required_files = [MODEL_PKL, SCALER_X_PKL, SCALER_Y_PKL]
     missing = []
     
@@ -36,7 +36,7 @@ def check_model_files():
 
 
 def test_model_loading():
-    """Проверяет что модель загружается"""
+    """Checks that the model loads"""
     try:
         print("\nLoading model...")
         model = joblib.load(MODEL_PKL)
@@ -50,7 +50,7 @@ def test_model_loading():
 
 
 def test_prediction(model, scaler_X, scaler_y):
-    """Тестирует предсказание на примере"""
+    """Tests prediction on an example"""
     try:
         print("\nTesting prediction...")
         
@@ -67,11 +67,11 @@ def test_prediction(model, scaler_X, scaler_y):
         pred = scaler_y.inverse_transform(pred_scaled)
         
         print(f"Prediction successful!")
-        print(f"\n   Входные параметры робота:")
-        print(f"   - Масса: {test_params[0][0]:.2f}")
-        print(f"   - Трение: {test_params[0][1]:.2f}")
-        print(f"   - Инерция: {test_params[0][2]:.2f}")
-        print(f"\n   Предсказанные PID параметры:")
+        print(f"\n   Input robot parameters:")
+        print(f"   - Mass: {test_params[0][0]:.2f}")
+        print(f"   - Friction: {test_params[0][1]:.2f}")
+        print(f"   - Inertia: {test_params[0][2]:.2f}")
+        print(f"\n   Predicted PID parameters:")
         print(f"   - Kp: {pred[0][0]:.4f}")
         print(f"   - Ki: {pred[0][1]:.4f}")
         print(f"   - Kd: {pred[0][2]:.4f}")
@@ -83,7 +83,7 @@ def test_prediction(model, scaler_X, scaler_y):
 
 
 def main():
-    """Основная функция проверки"""
+    """Main check function"""
     print("="*50)
     print("MODEL CHECK")
     print("="*50)
@@ -104,15 +104,15 @@ def main():
         print("\n" + "="*50)
         print("MODEL WORKING - Ready to use")
         print("="*50)
-        print("\n📝 Как использовать:")
-        print("   1. Быстрое предсказание:")
-        print("      python3 predict_pid.py 2.0 0.7 0.15")
-        print("\n   2. Интерактивный режим:")
-        print("      python3 predict_pid.py")
-        print("\n   3. Полное тестирование:")
-        print("      python3 test_model.py")
-        print("\n   4. Эксперименты для статьи:")
-        print("      python3 experiments.py")
+        print("\nHow to use:")
+        print("   1. Quick prediction:")
+        print("      python3 src/predict_pid.py 2.0 0.7 0.15")
+        print("\n   2. Interactive mode:")
+        print("      python3 src/predict_pid.py")
+        print("\n   3. Full testing:")
+        print("      python3 src/test_model.py")
+        print("\n   4. Experiments for paper:")
+        print("      python3 src/experiments.py")
 
 
 if __name__ == "__main__":

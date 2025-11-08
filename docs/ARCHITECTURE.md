@@ -51,13 +51,12 @@ This project uses machine learning to predict optimal PID (Proportional-Integral
 - `load_dataset()`: load dataset from CSV
 - `save_training_data()`: save prepared data
 - `print_statistics()`: print data statistics
-- `strategy_best_per_robot()`: strategy 1 - best PID for each robot
-- `strategy_top_percentile()`: strategy 2 - best results by percentile
+- `strategy_best_per_robot()`: best PID for each unique robot configuration
 - `prepare_features_labels()`: extract features and labels
 
 **Principle**: Single point for common logic, strategies extracted into separate functions.
 
-### 4. `prepare_training_data.py` - Data Preparation (Strategy 1)
+### 4. `prepare_training_data.py` - Data Preparation
 **Purpose**: Select best PID parameters for each unique robot.
 
 **Strategy**:
@@ -70,17 +69,7 @@ This project uses machine learning to predict optimal PID (Proportional-Integral
 - `X_train.npy`: robot parameters (mass, friction, inertia)
 - `y_train.npy`: optimal PID parameters (Kp, Ki, Kd)
 
-### 5. `prepare_training_data_v2.py` - Data Preparation (Strategy 2)
-**Purpose**: Alternative strategy - select best results by score.
-
-**Strategy**:
-1. Uses `strategy_top_percentile()` from `data_preparation.py`
-2. Selects top 30% results (by score quantile)
-3. Uses all these pairs for training
-
-**Difference from Strategy 1**: Does not group by robots, but takes simply best results.
-
-### 6. `train_model.py` - Model Training
+### 5. `train_model.py` - Model Training
 **Purpose**: Train neural network to predict PID parameters.
 
 **Model Architecture**:
@@ -103,7 +92,7 @@ This project uses machine learning to predict optimal PID (Proportional-Integral
 - `scaler_X.pkl`: input data scaler
 - `scaler_y.pkl`: output data scaler
 
-### 7. `predict_pid.py` - PID Parameter Prediction
+### 6. `predict_pid.py` - PID Parameter Prediction
 **Purpose**: Use trained model to predict optimal PID parameters.
 
 **Functions**:
@@ -121,7 +110,7 @@ This project uses machine learning to predict optimal PID (Proportional-Integral
 **Input**: robot parameters (mass, friction, inertia)  
 **Output**: predicted PID parameters (Kp, Ki, Kd)
 
-### 8. `test_model.py` - Model Testing
+### 7. `test_model.py` - Model Testing
 **Purpose**: Test trained model on new robots and compare with baseline manual tuning.
 
 **Functions**:
@@ -138,7 +127,7 @@ This project uses machine learning to predict optimal PID (Proportional-Integral
 **Output Files**:
 - `results_comparison.png`: ML vs Manual comparison plots for each robot type
 
-### 9. `experiments.py` - Experiments for Research Paper
+### 8. `experiments.py` - Experiments for Research Paper
 **Purpose**: Conduct experiments to validate method and prepare data for paper.
 
 **Experiments**:
@@ -152,7 +141,7 @@ This project uses machine learning to predict optimal PID (Proportional-Integral
 - `improvement_distribution.png`: performance improvement distribution
 - `experiment_results.npy`: results for statistical analysis
 
-### 10. `statistical_analysis.py` - Statistical Analysis
+### 9. `statistical_analysis.py` - Statistical Analysis
 **Purpose**: Statistical analysis of experiment results for research paper.
 
 **Analysis Methods**:
@@ -235,11 +224,10 @@ experiment_results.npy → statistical_analysis.py → statistical_results.json
 ## Architectural Decisions
 
 1. **Separation of simulation and training**: Physical model separated from ML components
-2. **Two data preparation strategies**: Allows experimenting with different approaches
-3. **Centralization of data preparation logic**: `data_preparation.py` module eliminates duplication (DRY)
-4. **Data normalization**: StandardScaler for training stability
-5. **Early stopping**: Prevents overfitting
-6. **Modularity**: Each component has clear responsibility (SOLID)
+2. **Centralization of data preparation logic**: `data_preparation.py` module eliminates duplication (DRY)
+3. **Data normalization**: StandardScaler for training stability
+4. **Early stopping**: Prevents overfitting
+5. **Modularity**: Each component has clear responsibility (SOLID)
 
 ## Architecture Changelog
 
@@ -252,13 +240,12 @@ experiment_results.npy → statistical_analysis.py → statistical_results.json
 
 ### 2025-01-XX (Refactoring)
 - **Created `data_preparation.py` module**: Centralized data preparation logic
-- **Refactored data preparation scripts**: Eliminated code duplication between strategies
 - **Added `predict_pid.py` module**: Tool for using trained model
 - **Reason**: Follow DRY and SOLID principles, improve code maintainability
-- **Impact**: Simplified addition of new data preparation strategies, single entry point for predictions
+- **Impact**: Single entry point for predictions, cleaner code structure
 
 ### 2025-01-XX (Base Version)
 - **Created base architecture**: Modules for simulation, data generation, data preparation, and training
-- **Added two data preparation strategies**: Grouping by robots vs selecting best results
-- **Reason**: Research different approaches to training data preparation
-- **Impact**: Allows comparing effectiveness of different strategies
+- **Data preparation strategy**: Best PID per unique robot configuration
+- **Reason**: Research approach to training data preparation
+- **Impact**: Clean mapping from robot parameters to optimal PID parameters
