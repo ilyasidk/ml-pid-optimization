@@ -21,17 +21,17 @@ REM Step 1: Generate data
 echo ==========================================
 echo STEP 1: Generating Dataset
 echo ==========================================
-echo WARNING: This will take 2-4 hours!
+echo WARNING: This will take 1-2 hours!
 echo You can skip this if you already have data
 echo.
 set /p CONTINUE="Continue? (y/n): "
 if /i "%CONTINUE%"=="y" (
-    echo Generating 10,000 experiments...
-    python src\generate_data.py
+    echo Generating 1,000 robot configurations (Nelder-Mead optimization)...
+    python src\generate_data_optimized.py
     echo OK
 ) else (
     echo Skipped. Use existing dataset or run later:
-    echo   python src\generate_data.py
+    echo   python src\generate_data_optimized.py
 )
 echo.
 
@@ -74,7 +74,7 @@ echo ==========================================
 echo STEP 6: Statistical Analysis
 echo ==========================================
 echo Statistical analysis...
-python src\statistical_analysis.py
+python src\statistical_analysis_improved.py
 echo OK
 echo.
 
@@ -89,9 +89,12 @@ echo Results saved in:
 echo    - results\improvement_distribution.png
 echo    - results\noise_robustness.png
 echo    - results\results_comparison.png
-echo    - results\statistical_results.json
+echo    - results\statistical_comparison_baseline.png
+echo    - results\statistical_comparison_cc.png
+echo    - results\statistical_comparison_chr.png
+echo    - results\statistical_results_improved.json
 echo.
 echo To use the model:
-echo    python src\predict_pid.py ^<mass^> ^<friction^> ^<inertia^>
+echo    python src\predict_pid.py ^<mass^> ^<damping_coeff^> ^<inertia^>
 echo.
 pause

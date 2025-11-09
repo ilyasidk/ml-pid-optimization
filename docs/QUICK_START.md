@@ -55,7 +55,7 @@ python3 src/experiments.py
 ### Statistics:
 
 ```bash
-python3 src/statistical_analysis.py
+python3 src/statistical_analysis_improved.py
 ```
 
 ---
@@ -76,7 +76,7 @@ python3 src/test_model.py
 python3 src/experiments.py
 
 # Statistics
-python3 src/statistical_analysis.py
+python3 src/statistical_analysis_improved.py
 ```
 
 ---

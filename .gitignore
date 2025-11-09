@@ -21,12 +21,7 @@ env/
 ENV/
 .venv/
 
-# Data files (large, generated)
-data/*.csv
-data/*.npy
 
-# Models (large, generated)
-models/*.pkl
 
 # Results (keep PNG files for documentation, ignore large data files)
 results/*.npy

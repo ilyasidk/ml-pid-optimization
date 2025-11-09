@@ -29,7 +29,7 @@ This script will check:
 ### Option 1: Quick Prediction (Command Line)
 
 ```bash
-python3 src/predict_pid.py <mass> <friction> <inertia>
+python3 src/predict_pid.py <mass> <damping_coeff> <inertia>
 ```
 
 **Example:**
@@ -40,9 +40,9 @@ python3 src/predict_pid.py 2.5 0.8 0.2
 **Output:**
 ```
 --- Optimal PID Parameters ---
-Kp: 3.4567
-Ki: 1.2345
-Kd: 0.6789
+Kp: 12.44
+Ki: 0.00
+Kd: 19.55
 ```
 
 ### Option 2: Interactive Mode
@@ -54,9 +54,9 @@ python3 src/predict_pid.py
 The program will ask for parameters:
 ```
 Enter robot parameters:
-Mass (0.5-5.0): 2.5
-Friction (0.1-2.0): 0.8
-Inertia (0.05-0.5): 0.2
+Mass [kg] (0.5-5.0): 2.5
+Damping coefficient [N·s/m] (0.1-2.0): 0.8
+Inertia [kg·m²] (0.05-0.5): 0.2
 ```
 
 ### Option 3: Use in Your Code
@@ -65,7 +65,7 @@ Inertia (0.05-0.5): 0.2
 from src.predict_pid import predict_pid
 
 # Predict for a robot
-result = predict_pid(mass=2.5, friction=0.8, inertia=0.2)
+result = predict_pid(mass=2.5, damping_coeff=0.8, inertia=0.2)
 
 print(f"Kp: {result['Kp']}")
 print(f"Ki: {result['Ki']}")
@@ -130,17 +130,21 @@ python3 src/experiments.py
 After experiments, run statistical analysis:
 
 ```bash
-python3 src/statistical_analysis.py
+python3 src/statistical_analysis_improved.py
 ```
 
 **What it does:**
-- Paired t-test (statistical significance)
-- Wilcoxon test (non-parametric)
-- Cohen's d (effect size)
-- Descriptive statistics
+- Paired t-test, Wilcoxon test, Sign test
+- Multiple effect sizes (Cohen's d, Hedge's g, Glass's delta, Cliff's delta)
+- Bootstrap confidence intervals
+- Normality tests
+- Generates LaTeX tables for paper
 
-**Creates file:**
-- `results/statistical_results.json` - all metrics for paper
+**Creates files:**
+- `results/statistical_comparison_baseline.png` - comprehensive plots ML vs Baseline
+- `results/statistical_comparison_cc.png` - comprehensive plots ML vs Cohen-Coon
+- `results/statistical_comparison_chr.png` - comprehensive plots ML vs CHR
+- `results/statistical_results_improved.json` - all metrics for paper
 
 ---
 
@@ -194,9 +198,9 @@ print(f"Settling time: {result['settling_time']:.2f}s")
 ## ⚠️ Parameter Ranges
 
 **Input robot parameters:**
-- `mass`: 0.5 - 5.0
-- `friction`: 0.1 - 2.0
-- `inertia`: 0.05 - 0.5
+- `mass`: 0.5 - 5.0 kg
+- `damping_coeff`: 0.1 - 2.0 N·s/m (viscous damping coefficient)
+- `inertia`: 0.05 - 0.5 kg·m²
 
 **Output PID parameters:**
 - `Kp`: usually 0.1 - 20
@@ -235,6 +239,6 @@ pip install -r requirements.txt
 - [ ] Tested on example: `python src/predict_pid.py 2.0 0.7 0.15`
 - [ ] Ran full testing: `python src/test_model.py`
 - [ ] Ran experiments: `python src/experiments.py`
-- [ ] Got statistics: `python src/statistical_analysis.py`
+- [ ] Got statistics: `python src/statistical_analysis_improved.py`
 
 **Done! Now you have all data for the paper! 🎉**

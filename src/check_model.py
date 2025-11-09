@@ -54,8 +54,8 @@ def test_prediction(model, scaler_X, scaler_y):
     try:
         print("\nTesting prediction...")
         
-        # Test example
-        test_params = np.array([[2.0, 0.7, 0.15]])  # mass, friction, inertia
+        # Test example: mass [kg], damping_coeff [N·s/m], inertia [kg·m²]
+        test_params = np.array([[2.0, 0.7, 0.15]])
         
         # Normalization
         test_scaled = scaler_X.transform(test_params)
@@ -68,9 +68,9 @@ def test_prediction(model, scaler_X, scaler_y):
         
         print(f"Prediction successful!")
         print(f"\n   Input robot parameters:")
-        print(f"   - Mass: {test_params[0][0]:.2f}")
-        print(f"   - Friction: {test_params[0][1]:.2f}")
-        print(f"   - Inertia: {test_params[0][2]:.2f}")
+        print(f"   - Mass: {test_params[0][0]:.2f} kg")
+        print(f"   - Damping coeff: {test_params[0][1]:.2f} N·s/m")
+        print(f"   - Inertia: {test_params[0][2]:.2f} kg·m²")
         print(f"\n   Predicted PID parameters:")
         print(f"   - Kp: {pred[0][0]:.4f}")
         print(f"   - Ki: {pred[0][1]:.4f}")

@@ -51,13 +51,13 @@ r2 = r2_score(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
 
 print(f"\n--- Results ---")
-print(f"R² Score: {r2:.4f}")
+print(f"R2 Score: {r2:.4f}")
 print(f"MSE: {mse:.4f}")
 
-# Per-output R² scores
+# Per-output R2 scores
 for i, param in enumerate(['Kp', 'Ki', 'Kd']):
     r2_param = r2_score(y_test[:, i], y_pred[:, i])
-    print(f"R² for {param}: {r2_param:.4f}")
+    print(f"R2 for {param}: {r2_param:.4f}")
 
 # Save model and scalers
 joblib.dump(model, MODEL_PKL)

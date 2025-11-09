@@ -1,5 +1,7 @@
 """
 Скрипт для предсказания оптимальных PID параметров для робота
+
+Updated to use corrected physical model with damping_coeff.
 """
 import numpy as np
 import joblib
@@ -7,17 +9,21 @@ import sys
 from config import MODEL_PKL, SCALER_X_PKL, SCALER_Y_PKL
 
 
-def predict_pid(mass, friction, inertia):
+def predict_pid(mass, damping_coeff, inertia):
     """
     Предсказывает оптимальные PID параметры для робота
     
     Args:
-        mass: масса робота
-        friction: коэффициент трения
-        inertia: момент инерции
+        mass: масса робота в кг
+        damping_coeff: коэффициент вязкого демпфирования в N·s/m (было 'friction')
+        inertia: момент инерции в kg·m²
     
     Returns:
         dict: {'Kp': float, 'Ki': float, 'Kd': float}
+    
+    Note: Для обратной совместимости с существующими моделями,
+          параметр называется damping_coeff, но модель может быть обучена на 'friction'.
+          Это нормально, т.к. значения идентичны.
     """
     # Загрузка модели и скейлеров
     try:
@@ -31,7 +37,8 @@ def predict_pid(mass, friction, inertia):
         )
     
     # Подготовка входных данных
-    X = np.array([[mass, friction, inertia]])
+    # Note: Model expects [mass, damping_coeff/friction, inertia]
+    X = np.array([[mass, damping_coeff, inertia]])
     
     # Нормализация
     X_scaled = scaler_X.transform(X)
@@ -54,17 +61,17 @@ def main():
     if len(sys.argv) == 4:
         # Режим командной строки
         mass = float(sys.argv[1])
-        friction = float(sys.argv[2])
+        damping_coeff = float(sys.argv[2])
         inertia = float(sys.argv[3])
     else:
         # Interactive mode
         print("Enter robot parameters:")
-        mass = float(input("Mass (0.5-5.0): "))
-        friction = float(input("Friction (0.1-2.0): "))
-        inertia = float(input("Inertia (0.05-0.5): "))
+        mass = float(input("Mass [kg] (0.5-5.0): "))
+        damping_coeff = float(input("Damping coefficient [N·s/m] (0.1-2.0): "))
+        inertia = float(input("Inertia [kg·m²] (0.05-0.5): "))
     
     # Предсказание
-    result = predict_pid(mass, friction, inertia)
+    result = predict_pid(mass, damping_coeff, inertia)
     
     # Output results
     print("\n--- Optimal PID Parameters ---")

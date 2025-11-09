@@ -45,11 +45,12 @@ read -p "Continue? (y/n): " -n 1 -r
 echo ""
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     echo "Skipped. Use existing dataset or run later:"
-    echo "  $PYTHON_CMD src/generate_data.py"
+    echo "  $PYTHON_CMD src/generate_data_optimized.py"
     echo ""
 else
-    echo "🔄 Generating 10,000 experiments..."
-    $PYTHON_CMD src/generate_data.py
+    echo "🔄 Generating 1,000 robot configurations (Nelder-Mead optimization)..."
+    echo "   This will take 1-2 hours..."
+    $PYTHON_CMD src/generate_data_optimized.py
     echo "✅ Data generated"
     echo ""
 fi
@@ -94,7 +95,7 @@ echo "=========================================="
 echo "STEP 6: Statistical Analysis"
 echo "=========================================="
 echo "🔄 Statistical analysis..."
-$PYTHON_CMD src/statistical_analysis.py
+$PYTHON_CMD src/statistical_analysis_improved.py
 echo "✅ Analysis completed"
 echo ""
 
@@ -109,12 +110,15 @@ echo "📊 Results saved in:"
 echo "   - results/improvement_distribution.png"
 echo "   - results/noise_robustness.png"
 echo "   - results/results_comparison.png"
-echo "   - results/statistical_results.json"
+echo "   - results/statistical_comparison_baseline.png"
+echo "   - results/statistical_comparison_cc.png"
+echo "   - results/statistical_comparison_chr.png"
+echo "   - results/statistical_results_improved.json"
 echo ""
 echo "📝 To use the model:"
-echo "   $PYTHON_CMD src/predict_pid.py <mass> <friction> <inertia>"
+echo "   $PYTHON_CMD src/predict_pid.py <mass> <damping_coeff> <inertia>"
 echo ""
 echo "📄 All metrics and results described in:"
-echo "   - paper/research_paper.md"
 echo "   - README.md"
+echo "   - REPRODUCIBILITY.md"
 echo ""

@@ -27,13 +27,13 @@ Or use the script:
 bash scripts/install_dependencies.sh
 ```
 
-### 2. Generate Dataset (2-4 hours)
+### 2. Generate Dataset (1-2 hours)
 
 ```bash
-python src/generate_data.py
+python src/generate_data_optimized.py
 ```
 
-**Note:** Generates 10,000 experiments. Can be run overnight.
+**Note:** Generates 1,000 robot configurations using Nelder-Mead optimization. Each robot takes 2-5 seconds to optimize.
 
 ### 3. Prepare Training Data
 
@@ -69,53 +69,68 @@ python src/experiments.py
 ```
 
 Runs 4 experiments:
-1. Speed comparison
+1. Speed comparison (ML vs Baseline, Cohen-Coon, CHR)
 2. Generalization to different robot types
 3. Noise robustness
-4. Accuracy on 100 random robots
+4. Accuracy on 1,000 random robots
 
 Creates:
 - `results/noise_robustness.png`
 - `results/improvement_distribution.png`
+- `results/results_comparison.png`
 - `results/experiment_results.npy`
 
 ### 7. Statistical Analysis
 
 ```bash
-python src/statistical_analysis.py
+python src/statistical_analysis_improved.py
 ```
 
-Performs statistical tests and creates:
-- `results/statistical_results.json`
+Performs comprehensive statistical tests and creates:
+- `results/statistical_comparison_baseline.png`
+- `results/statistical_comparison_cc.png`
+- `results/statistical_comparison_chr.png`
+- `results/statistical_results_improved.json`
+- LaTeX tables for paper
 
 ## Expected Results
 
 After completing all steps, you will get:
 
 ### Model Metrics:
-- R² Score: ~0.9876
-- R² for Kp: ~0.9921
-- R² for Ki: ~0.9812
-- R² for Kd: ~0.9895
+- R² Score: ~0.0873 (overall)
+- R² for Kp: ~0.4429
+- R² for Ki: ~-0.1860
+- R² for Kd: ~0.0050
+- **Note:** Lower R² scores indicate room for improvement, but model provides substantial practical gains
 
 ### Experiment Results:
 - **ML vs Adaptive Baseline:**
-  - Mean improvement: ~72.6%
-  - Success rate: 100% (100/100)
-  - p-value: < 0.001
-  - Cohen's d: ~2.22
+  - Mean improvement: ~78.1% (95% CI: [77.6%, 78.5%])
+  - Success rate: 100% (1,000/1,000)
+  - p-value: < 1e-10
+  - Cohen's d: ~5.66 (very large effect)
 
-- **ML vs Ziegler-Nichols:**
-  - Mean improvement: ~38.7%
-  - Success rate: ~90% (18/20)
-  - p-value: ~0.0008
-  - Cohen's d: ~0.91
+- **ML vs Cohen-Coon:**
+  - Mean improvement: ~90.4% (95% CI: [90.0%, 90.7%])
+  - Success rate: 100% (1,000/1,000)
+  - p-value: < 1e-10
+  - Cohen's d: ~6.62 (very large effect)
+
+- **ML vs CHR:**
+  - Mean improvement: ~51.7% (95% CI: [50.9%, 52.5%])
+  - Success rate: 100% (1,000/1,000)
+  - p-value: < 1e-10
+  - Cohen's d: ~2.20 (large effect)
 
 ### Result Files:
 - `results/improvement_distribution.png` - improvement distribution
 - `results/noise_robustness.png` - noise robustness
-- `results/results_comparison.png` - method comparison
-- `results/statistical_results.json` - statistical metrics
+- `results/results_comparison.png` - method comparison (ML, Baseline, CC, CHR)
+- `results/statistical_comparison_baseline.png` - comprehensive stats ML vs Baseline
+- `results/statistical_comparison_cc.png` - comprehensive stats ML vs Cohen-Coon
+- `results/statistical_comparison_chr.png` - comprehensive stats ML vs CHR
+- `results/statistical_results_improved.json` - all statistical metrics
 
 ## Reproducibility
 
@@ -129,7 +144,7 @@ All results are reproducible thanks to:
 To verify that results match:
 
 1. Run full reproduction
-2. Compare metrics with those in `paper/research_paper.md`
+2. Compare metrics with those in paper (paper.md)
 3. Check that plots are similar to `results/*.png`
 
 **Note:** Small differences (< 1%) are possible due to library version or environment differences, but main results should match.
@@ -140,7 +155,7 @@ To verify that results match:
 Make sure you completed steps 2-4 (data preparation and training).
 
 ### Error: "Dataset not found"
-Run `python src/generate_data.py` (will take 2-4 hours).
+Run `python src/generate_data_optimized.py` (will take 1-2 hours).
 
 ### Result Differences
 - Check library versions: `pip list`
@@ -151,12 +166,12 @@ Run `python src/generate_data.py` (will take 2-4 hours).
 
 | Step | Time |
 |------|------|
-| Data generation | 2-4 hours |
+| Data generation | 1-2 hours (1,000 robots, Nelder-Mead) |
 | Data preparation | < 1 minute |
 | Model training | 1-5 minutes |
-| Experiments | 5-10 minutes |
-| Statistics | < 1 minute |
-| **Total** | **~3-5 hours** |
+| Experiments | 5-10 minutes (1,000 test cases) |
+| Statistics | 1-2 minutes |
+| **Total** | **~2-3 hours** |
 
 ## Using Results
 
@@ -166,11 +181,13 @@ After reproduction, you can:
    ```bash
    python src/predict_pid.py 2.0 0.7 0.15
    ```
+   Note: Parameters are `mass`, `damping_coeff` (N·s/m), `inertia` (kg·m²)
 
 2. **View results:**
    - Open `results/*.png` for plots
-   - Open `results/statistical_results.json` for metrics
+   - Open `results/statistical_results_improved.json` for metrics
 
 3. **Use in paper:**
-   - All metrics described in `paper/research_paper.md`
+   - All metrics described in `paper.md`
    - Plots ready for inclusion in paper
+   - LaTeX tables generated by statistical analysis
